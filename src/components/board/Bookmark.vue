@@ -28,7 +28,6 @@ export default {
           this.list = res.data;
         });
       } 
-      else this.list=[];
     },
     clickedRow(bno){
       this.$store.commit('bookmarkToggle',bno);
@@ -36,7 +35,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
@@ -47,5 +45,6 @@ export default {
     margin-left : auto;
     margin-top : 30px;
   }
+  p { margin-top : 40px; }
 
 </style>
