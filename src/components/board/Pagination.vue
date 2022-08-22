@@ -14,7 +14,7 @@
                 <td>{{ row.bno }}</td>
                 <td><a class="title" v-on:click="goDetail(row.bno)">{{ row.title }}</a></td>
                 <td>{{ row.regdate }}</td>
-                <td><a class="heart" v-on:click="this.$store.commit('bookmarkToggle',row.bno)">{{ $store.state.bookmark.includes(row.bno)?'💗':'🤍' }}</a></td>
+                <td><a class="heart" v-on:click="this.$emit('clicked',row.bno)">{{ $store.state.bookmark.includes(row.bno)?'💗':'🤍' }}</a></td>
             </tr>
             </tbody>
         </table>

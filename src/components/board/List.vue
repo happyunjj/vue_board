@@ -1,7 +1,7 @@
 <template>
   <div class="board-list">
     <h2>게시물 조회</h2>
-    <Pagination :list="list"/>
+    <Pagination :list="list" @clicked="clickedRow"/>
     <button v-on:click="goWrite" class="writeBtn">등록</button>
   </div>
 </template>
@@ -31,6 +31,9 @@ export default {
       this.$router.push({
         path: './write'
       })
+    },
+    clickedRow(bno){
+      this.$store.commit('bookmarkToggle',bno);
     }
   }
 }

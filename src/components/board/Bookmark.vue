@@ -2,7 +2,7 @@
   <div class="board-list">
     <h2>즐겨찾기 리스트</h2>
 	  <p v-if="this.$store.getters.getLength == 0">즐겨찾기한 게시물이 없습니다.</p>
-    <Pagination v-else :list="list"/>
+    <Pagination v-else :list="list" @clicked="clickedRow"/>
   </div>
 </template>
 
@@ -29,16 +29,10 @@ export default {
         });
       } 
       else this.list=[];
-    }
-  },
-  computed:{
-    getLength(){
-      return this.$store.getters.getLength;
-    }
-  },
-  watch: {
-    getLength(val){
-      this.getList();
+    },
+    clickedRow(bno){
+      this.$store.commit('bookmarkToggle',bno);
+      this.list = this.list.filter((e)=>e.bno!=bno);
     }
   }
 }
