@@ -49,7 +49,7 @@ export default {
     margin-top : 30px;
   }
   .writeBtn {
-    margin:20px 0;
+    margin:10px 0;
     float:right;
   }
 </style>

@@ -1,6 +1,12 @@
 <template>
     <div>
         <table class="blist">
+            <colgroup>
+              <col style="width:10%">
+              <col style="width:45%">
+              <col style="width:30%">
+              <col style="width:15%">
+            </colgroup>
             <thead>
             <tr>
             <th>글번호</th>
@@ -19,11 +25,11 @@
             </tbody>
         </table>
         <div class="btns">
-        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+        <button :disabled="pageNum === 0" @click="prevPage" class="pageBtn">
             이전
         </button>
         <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="pageBtn">
             다음
         </button>
         </div>
@@ -89,6 +95,12 @@ export default {
     margin-right : auto;
     margin-left : auto;
     margin-top : 30px;
+    border-collapse : collapse;
+    border-top : 1px solid;
+  }
+  .blist td,th{
+    border-bottom: 1px solid;
+    padding : 8px
   }
   .btns {
     margin-top:30px;
@@ -96,5 +108,11 @@ export default {
   }
   .heart,.title{
     cursor:pointer;
+  }
+  .pageBtn:first-child {
+    margin-right : 4px;
+  }
+  .pageBtn:last-child {
+    margin-left : 4px;
   }
 </style>
