@@ -43,7 +43,6 @@
                     title:this.title,
                     content:this.content
                 }
-                console.log(board);
                 if(!this.title) {
                     alert("제목을 입력해주세요.");
                     return false;
