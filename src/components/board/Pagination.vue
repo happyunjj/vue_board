@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(row,bno) in paginatedData" :key="bno">
+            <tr v-for="(row,bno) in paginatedData">
                 <td>{{ row.bno }}</td>
                 <td><a class="title" v-on:click="goDetail(row.bno)">{{ row.title }}</a></td>
                 <td>{{ row.regdate }}</td>
@@ -40,18 +40,14 @@
 export default {
   data () {
     return {
-      pageNum: 0
+      pageNum: 0,
+      pageSize: 10
     }
   },
   props: {
     list: {
       type: Array,
       required: true
-    },
-    pageSize: {
-      type: Number,
-      required: false,
-      default: 10
     }
   },
   methods: {
@@ -72,16 +68,14 @@ export default {
   },
   computed: {
     pageCount () {
-      let totalPage = this.list.length,
-          listSize = this.pageSize,
-          page = Math.floor(totalPage / listSize);
-      if (totalPage % listSize > 0) page += 1;
-      
+      let totalCount = this.list.length;
+      let listSize = this.pageSize;
+      let page = Math.ceil(totalCount / listSize);
       return page;
     },
     paginatedData () {
-      const start = this.pageNum * this.pageSize,
-            end = start + this.pageSize;
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
       return this.list.slice(start, end);
     }
   }
