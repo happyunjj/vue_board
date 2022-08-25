@@ -1,10 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import Home from '@/components/Home';
-import List from '@/components/board/List';
-import Bookmark from '@/components/board/Bookmark';
-import Write from '@/components/board/Write';
-import Detail from '@/components/board/Detail';
-import Modify from '@/components/board/Modify';
+
 
 const routes = [
     {
@@ -13,23 +9,23 @@ const routes = [
     },
     {
         path:'/board/list',
-        component : List
+        component : () => import(/* webpackChunkName: "list" */ '@/components/board/List')
     },
     {
         path:'/board/bookmark',
-        component : Bookmark
+        component : () => import(/* webpackChunkName: "bookmark" */ '@/components/board/Bookmark')
     },
     {
         path:'/board/write',
-        component : Write
+        component : () => import(/* webpackChunkName: "write" */ '@/components/board/Write')
     },
     {
         path:'/board/:bno',
-        component : Detail
+        component : () => import(/* webpackChunkName: "detail" */ '@/components/board/Detail')
     },
     {
         path:'/board/modify/:bno',
-        component : Modify
+        component : () => import(/* webpackChunkName: "modify" */ '@/components/board/Modify')
     }
 ];
 
