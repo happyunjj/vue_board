@@ -24,7 +24,7 @@
         methods : {
             goList(){
                 this.$router.push({
-                    path: './list'
+                    path: '/board/list'
                 });
             },
             write() {
@@ -42,7 +42,10 @@
                 }
                 this.$axios.post(this.$serverUrl+"/board/write",board).then((res)=>{
                     this.goList();
-                })
+                }).catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             }
         }
     }

@@ -16,7 +16,7 @@
     export default {
         data(){
             return {
-                bno : this.$route.query.bno,
+                bno : this.$route.params.bno,
                 title : '',
                 content : '',
                 regdate : ''
@@ -28,7 +28,7 @@
         methods : {
             goList(){
                 this.$router.push({
-                    path: './list'
+                    path: '/board/'+this.$store.state.category
                 });
             },
             read(){
@@ -36,27 +36,25 @@
                     this.title = res.data.title;
                     this.content = res.data.content;
                     this.regdate = res.data.regdate;
-                })
+                }).catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             },
             deletePost(){
-                const bno= {
-                    bno:Number(this.bno)
-                };
                 if (confirm('해당 게시글을 삭제하시겠습니까?')){
-                    this.$axios.post(this.$serverUrl+"/board/delete",bno).then((res)=>{
+                    this.$axios.delete(this.$serverUrl+"/board/"+this.bno).then((res)=>{
                         this.goList();
+                    }).catch(error => {
+                        let errorStatus = error.response.status;
+                        alert(errorStatus+' : 오류가 발생했습니다 !!');
                     });
                 } else {
                     return;
                 }
             },
             goModify(){
-                this.$router.push({
-                    path: './modify',
-                    query:{
-                        bno:this.bno
-                    }
-                });
+                this.$router.push('/board/modify/'+this.bno);
             }
         }
     }

@@ -1,37 +1,68 @@
 <template>
   <div class="board-list">
     <h2>즐겨찾기 리스트</h2>
-	  <p v-if="this.$store.getters.getLength == 0">즐겨찾기한 게시물이 없습니다.</p>
-    <Pagination v-else :list="list" @clicked="clickedRow"/>
+	  <p v-if="this.$store.state.bookmark.length == 0">즐겨찾기한 게시물이 없습니다.</p>
+    <Pagination v-else :list="paginatedData" @clicked="clickedRow">
+      <template v-slot:pagingSlot>
+        <div class="btns">
+          <button :disabled="pageNum === 0" @click="prevPage" class="pageBtn">
+              이전
+          </button>
+          <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+          <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="pageBtn">
+              다음
+          </button>
+        </div>
+      </template>
+    </Pagination>
   </div>
 </template>
 
 <script>
-import Pagination from './Pagination.vue'
+import Pagination from '@/components/board/Pagination.vue'
 
 export default {
   data() {
     return {
-      list : []
+      list : this.$store.getters.getBookmarks.sort(function(a,b){
+        return b.bno - a.bno;
+      }),
+      pageNum: 0,
+      pageSize: 10
     }
   },
   components : {
     Pagination
   },
   created() {
-    this.getList()
+    this.setCategory();
   },
   methods : {
-    getList() {
-      if(this.$store.getters.getLength != 0){
-        this.$axios.get("//localhost:8081/board/bookmark",{params:{bookmark:this.$store.state.bookmark.join(",")}}).then((res)=>{
-          this.list = res.data;
-        });
-      } 
+    nextPage () {
+      this.pageNum += 1;
     },
-    clickedRow(bno){
-      this.$store.commit('bookmarkToggle',bno);
-      this.list = this.list.filter((e)=>e.bno!=bno);
+    prevPage () {
+      this.pageNum -= 1;
+    },
+    clickedRow(row){
+      this.$store.commit('bookmarkToggle',row);
+      this.list = this.list.filter((e)=>e.bno!=row.bno);
+    },
+    setCategory(){
+      this.$store.commit('setCategory','bookmark');
+    }
+  },
+  computed: {
+    pageCount () {
+      let totalCount = this.list.length;
+      let listSize = this.pageSize;
+      let page = Math.ceil(totalCount / listSize);
+      return page;
+    },
+    paginatedData () {
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
+      return this.list.slice(start, end);
     }
   }
 }
@@ -46,5 +77,6 @@ export default {
     margin-top : 30px;
   }
   p { margin-top : 40px; }
+
 
 </style>

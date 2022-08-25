@@ -18,7 +18,7 @@
     export default {
         data: function(){
             return {
-                bno : this.$route.query.bno,
+                bno : this.$route.params.bno,
                 title:'',
                 content:'',
                 regdate:'',
@@ -30,19 +30,14 @@
         },
         methods : {
             goBack(){
-                this.$router.push({
-                    path: './detail',
-                    query : {
-                        bno : this.bno
-                    }
-                });
+                this.$router.push('/board/'+this.bno);
             },
             update() {
                 const board = {
                     bno:this.bno,
                     title:this.title,
                     content:this.content
-                }
+                };
                 if(!this.title) {
                     alert("제목을 입력해주세요.");
                     return false;
@@ -51,9 +46,12 @@
                     alert("내용을 입력해주세요.");
                     return false;
                 }
-                this.$axios.post(this.$serverUrl+"/board/update",board).then((res)=>{
+                this.$axios.put(this.$serverUrl+"/board/"+this.bno,board).then((res)=>{
                     this.goBack();
-                })
+                }).catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             },
             read(){
                 this.$axios.get(this.$serverUrl+"/board/"+this.bno).then((res)=>{
@@ -61,7 +59,10 @@
                     this.content = res.data.content;
                     this.regdate = res.data.regdate;
                     this.moddate = ( res.data.moddate == null? '없음' : res.data.moddate );
-                })
+                }).catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             }
         }
     }

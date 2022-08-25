@@ -7,8 +7,8 @@
 
 
 <script>
-import Home from './components/Home.vue'
-import Header from './components/common/Header';
+import Home from '@/components/Home.vue'
+import Header from '@/components/common/Header';
 
 export default {
   name: 'App',

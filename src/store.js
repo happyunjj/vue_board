@@ -3,20 +3,27 @@ import axios from "axios"
 
 export default createStore({
     state : {
-        bookmark:[]
+        bookmark:[],
+        bnos: [],
+        category : ''
     },
     getters : {
-        getLength(state){
-            return state.bookmark.length;
+        getBookmarks(state){
+            return state.bookmark;
         }
     },
     mutations : {
-        bookmarkToggle(state,bno){
-            if (!state.bookmark.includes(bno)) {
-                state.bookmark.push(bno);
+        bookmarkToggle(state,row){
+            if (!state.bnos.includes(row.bno)) {
+                state.bookmark.push(row);
+                state.bnos.push(row.bno);
             } else {
-                state.bookmark = state.bookmark.filter((e) => e !== bno);
+                state.bookmark = state.bookmark.filter((e) => e !== row);
+                state.bnos = state.bnos.filter((e) => e !== row.bno);
             }
+        },
+        setCategory(state,category){
+            state.category = category;
         }
     }
 })

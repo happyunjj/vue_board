@@ -9,32 +9,26 @@ import Modify from '@/components/board/Modify';
 const routes = [
     {
         path:'/',
-        name : Home,
         component : Home
     },
     {
         path:'/board/list',
-        name : List,
         component : List
     },
     {
         path:'/board/bookmark',
-        name : Bookmark,
         component : Bookmark
     },
     {
         path:'/board/write',
-        name : Write,
         component : Write
     },
     {
-        path:'/board/detail',
-        name : Detail,
+        path:'/board/:bno',
         component : Detail
     },
     {
-        path:'/board/modify',
-        name : Modify,
+        path:'/board/modify/:bno',
         component : Modify
     }
 ];

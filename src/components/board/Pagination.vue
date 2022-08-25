@@ -16,67 +16,24 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(row,bno) in paginatedData">
+            <tr v-for="(row,bno) in list" :key="bno">
                 <td>{{ row.bno }}</td>
-                <td><a class="title" v-on:click="goDetail(row.bno)">{{ row.title }}</a></td>
+                <td><a class="title" v-on:click="this.$router.push('/board/'+row.bno)">{{ row.title }}</a></td>
                 <td>{{ row.regdate }}</td>
-                <td><a class="heart" v-on:click="this.$emit('clicked',row.bno)">{{ $store.state.bookmark.includes(row.bno)?'💗':'🤍' }}</a></td>
+                <td><a class="heart" v-on:click="this.$emit('clicked',row)">{{ this.$store.state.bnos.includes(row.bno)?'💗':'🤍' }}</a></td>
             </tr>
             </tbody>
         </table>
-        <div class="btns">
-        <button :disabled="pageNum === 0" @click="prevPage" class="pageBtn">
-            이전
-        </button>
-        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="pageBtn">
-            다음
-        </button>
-        </div>
+        <slot name="pagingSlot"></slot>
     </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      pageNum: 0,
-      pageSize: 10
-    }
-  },
   props: {
     list: {
       type: Array,
       required: true
-    }
-  },
-  methods: {
-    nextPage () {
-      this.pageNum += 1;
-    },
-    prevPage () {
-      this.pageNum -= 1;
-    },
-    goDetail(bno){
-      this.$router.push({
-        path: './detail',
-        query : {
-          bno : bno
-        }
-      })
-    }
-  },
-  computed: {
-    pageCount () {
-      let totalCount = this.list.length;
-      let listSize = this.pageSize;
-      let page = Math.ceil(totalCount / listSize);
-      return page;
-    },
-    paginatedData () {
-      const start = this.pageNum * this.pageSize;
-      const end = start + this.pageSize;
-      return this.list.slice(start, end);
     }
   }
 }
