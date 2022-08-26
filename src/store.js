@@ -9,6 +9,7 @@ export default createStore({
     },
     getters : {
         getBookmarks(state){
+            console.log(state.bookmark.length);
             return state.bookmark;
         }
     },
@@ -18,8 +19,8 @@ export default createStore({
                 state.bookmark.push(row);
                 state.bnos.push(row.bno);
             } else {
-                state.bookmark = state.bookmark.filter((e) => e !== row);
-                state.bnos = state.bnos.filter((e) => e !== row.bno);
+                state.bookmark.splice(state.bnos.indexOf(row.bno),1);
+                state.bnos.splice(state.bnos.indexOf(row.bno),1);
             }
         },
         setCategory(state,category){

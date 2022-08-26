@@ -39,6 +39,7 @@
                 }).catch(error => {
                     let errorStatus = error.response.status;
                     alert(errorStatus+' : 오류가 발생했습니다 !!');
+                    this.goList();
                 });
             },
             deletePost(){

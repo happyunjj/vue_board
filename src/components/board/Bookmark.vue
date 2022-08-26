@@ -1,6 +1,6 @@
 <template>
   <div class="board-list">
-    <h2>즐겨찾기 리스트</h2>
+    <h2>즐겨찾기 리스트{{$store.getters.getBookmarks.length}} </h2>
 	  <p v-if="this.$store.state.bookmark.length == 0">즐겨찾기한 게시물이 없습니다.</p>
     <Pagination v-else :list="paginatedData" @clicked="clickedRow">
       <template v-slot:pagingSlot>
