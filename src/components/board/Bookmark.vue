@@ -1,6 +1,6 @@
 <template>
   <div class="board-list">
-    <h2>즐겨찾기 리스트{{$store.getters.getBookmarks.length}} </h2>
+    <h2>즐겨찾기 리스트</h2>
 	  <p v-if="this.$store.state.bookmark.length == 0">즐겨찾기한 게시물이 없습니다.</p>
     <Pagination v-else :list="paginatedData" @clicked="clickedRow">
       <template v-slot:pagingSlot>
@@ -24,9 +24,7 @@ import Pagination from '@/components/board/Pagination.vue'
 export default {
   data() {
     return {
-      list : this.$store.getters.getBookmarks.sort(function(a,b){
-        return b.bno - a.bno;
-      }),
+      list : this.$store.getters.getBookmarks,
       pageNum: 0,
       pageSize: 10
     }
@@ -46,7 +44,6 @@ export default {
     },
     clickedRow(row){
       this.$store.commit('bookmarkToggle',row);
-      this.list = this.list.filter((e)=>e.bno!=row.bno);
     },
     setCategory(){
       this.$store.commit('setCategory','bookmark');
@@ -75,6 +72,9 @@ export default {
     margin-right : auto;
     margin-left : auto;
     margin-top : 30px;
+  }
+  .btns {
+        margin-top : 30px;
   }
   p { margin-top : 40px; }
 

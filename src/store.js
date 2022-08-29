@@ -1,5 +1,6 @@
 import { createStore } from "vuex"
-import axios from "axios"
+import router from '@/router'
+import axios from 'axios'
 
 export default createStore({
     state : {
@@ -9,22 +10,39 @@ export default createStore({
     },
     getters : {
         getBookmarks(state){
-            console.log(state.bookmark.length);
             return state.bookmark;
         }
     },
     mutations : {
         bookmarkToggle(state,row){
             if (!state.bnos.includes(row.bno)) {
-                state.bookmark.push(row);
-                state.bnos.push(row.bno);
+                state.bookmark.unshift(row);
+                state.bnos.unshift(row.bno);
+                axios.get("//localhost:8081/board/bookmark/"+row.bno)
+                .catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             } else {
-                state.bookmark.splice(state.bnos.indexOf(row.bno),1);
-                state.bnos.splice(state.bnos.indexOf(row.bno),1);
+                for (let i = 0; i < state.bnos.length; i++) {
+                    if (row.bno == state.bnos[i]){
+                        state.bookmark.splice(i,1);
+                        state.bnos.splice(i,1);
+                    }
+                }
+                axios.delete("//localhost:8081/board/bookmark/"+row.bno)
+                .catch(error => {
+                    let errorStatus = error.response.status;
+                    alert(errorStatus+' : 오류가 발생했습니다 !!');
+                });
             }
         },
         setCategory(state,category){
             state.category = category;
+        },
+        setBookmark(state,row) {
+            state.bookmark.push(row);
+            state.bnos.push(row.bno);
         }
     }
 })

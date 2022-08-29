@@ -15,6 +15,15 @@ export default {
   components: {
     Header,
     Home
+  },
+    created(){
+    this.$axios.get(this.$serverUrl+"/board/bookmark").then((res)=>{
+        res.data.forEach((e)=>this.$store.commit('setBookmark',e));
+      })
+      .catch(error => {
+        let errorStatus = error.response.status;
+        alert(errorStatus+' : 오류가 발생했습니다 !!');
+      });
   }
 }
 </script>

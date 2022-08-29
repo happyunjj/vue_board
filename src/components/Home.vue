@@ -12,12 +12,6 @@
   </div>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <style scoped>
   .hello {
     margin-top : 100px;
